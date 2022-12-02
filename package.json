@@ -1,0 +1,24 @@
+{
+  "name": "voting-app-eth-india",
+  "version": "1.0.0",
+  "description": "an app that can support any type of election in your neighborhood during election day",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluntbrain/voting-app-eth-india.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bluntbrain/voting-app-eth-india/issues"
+  },
+  "homepage": "https://github.com/bluntbrain/voting-app-eth-india#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.12.3"
+  }
+}
