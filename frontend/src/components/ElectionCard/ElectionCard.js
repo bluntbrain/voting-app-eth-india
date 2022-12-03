@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 
-const ElectionCard = ({ name, noOfVotes, handleVoteClicked }) => {
+const ElectionCard = ({ name, noOfVotes, handleVoteClicked,banner }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ElectionCard = ({ name, noOfVotes, handleVoteClicked }) => {
       <div className="flex flex-col items-center">
         <div className="w-full">
           <img
-            src="https://cdn.tailgrids.com/1.0/assets/images/cards/card-01/image-03.jpg"
+            src={banner}
             alt=""
             className="rounded-t-xl w-full md:h-96 h-40 object-cover"
           />

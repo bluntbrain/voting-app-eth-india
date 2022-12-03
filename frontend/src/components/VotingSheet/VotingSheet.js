@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { fetchElectionCandidates } from "../../utils/firebaseFunctions";
 import Button from "../ui/Button";
+import { ethers } from "ethers";
+import { abiJson } from "../../utils/abi";
+import { castVote } from "../../utils/contractFunctions";
 
 const VotingSheet = ({ electionId, onClose }) => {
   const [candidates, setCandidates] = useState([]);
+  const [selectedCandidate, setSelectedCandidate] = useState(-1);
 
   useEffect(() => {
     fetchElectionCandidates(electionId).then((resp) => {
@@ -11,6 +15,12 @@ const VotingSheet = ({ electionId, onClose }) => {
       electionId && setCandidates(resp);
     });
   }, [electionId]);
+
+  const handleVoteClicked = () => {
+    console.log("handleVoteClicked");
+    castVote(selectedCandidate);
+    console.log("handleVoteClicked");
+  };
 
   return (
     <div className="flex flex-col w-full md:px-32 px-2 items-center">
@@ -31,6 +41,21 @@ const VotingSheet = ({ electionId, onClose }) => {
       <p className="text-lg mt-4 mx-1">Total votes</p>
       <p className="text-green-600 text-4xl my-1 font-bold">2500</p>
       <p className="text-lg mt-3 mx-1">Voting closes in 8 hours</p>
+      <p>{selectedCandidate}</p>
+      {candidates.map((item, index) => {
+        return (
+          <div onClick={() => setSelectedCandidate(item?.candidateId)}>
+            <p>{item.name}</p>
+          </div>
+        );
+      })}
+      <Button
+        type="secondary"
+        className="my-5 text-base md:w-1/5 w-full font-bold"
+        onClick={handleVoteClicked}
+      >
+        Cast vote
+      </Button>
     </div>
   );
 };

@@ -56,8 +56,8 @@ const ElectionsPage = () => {
                 Connected
               </button>
             </div>
-            <div className="flex flex-row w-full px-5 rounded-l-full rounded-r-full my-4 py-2 text-2xl bg-gray-100 border-2 border-gray-300">
-              <i
+            <div className="flex flex-row w-full px-2 rounded-l-full rounded-r-full my-4 py-2 text-2xl bg-gray-100 border-1 border-gray-300">
+              {/* <i
                 className="uil uil-search transform transition duration-5000 hover:scale-105 cursor-pointer text-gray-500"
                 onClick={handleSearch}
               />
@@ -65,7 +65,7 @@ const ElectionsPage = () => {
                 type="text"
                 className="outline-0 px-4 w-full bg-gray-100 placeholder-gray-500"
                 placeholder="Search"
-              />
+              /> */}
             </div>
             <div className="px-4 py-2 w-full">
               <div className="text-md inline-flex items-center cursor-pointer font-bold leading-sm px-3 py-1 text-black bg-gray-100 border-gray-300 border-2 rounded-full mx-1 transform transition duration-5000 hover:scale-105">
@@ -87,6 +87,7 @@ const ElectionsPage = () => {
                       handleVoteClicked={() => {
                         handleVoteClicked(election.id);
                       }}
+                      banner={election.bannerImage}
                     />
                   </div>
                 ))}
