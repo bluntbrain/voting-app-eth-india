@@ -66,16 +66,14 @@ const LoginPage = () => {
       .then((result) => {
         // User signed in successfully.
         const user = result.user;
-        console.log("signin success", number,user);
-        checkIfVoterIsRegistered(number).then(resp => {
-          
-          if(resp.userExists){
+        console.log("signin success", number, user);
+        checkIfVoterIsRegistered(number).then((resp) => {
+          if (resp.userExists) {
             // take to home page or connect wallet
-
-          }else{
+          } else {
             // take to registration page
           }
-        })
+        });
         // ...
       })
       .catch((error) => {
@@ -179,7 +177,9 @@ const LoginPage = () => {
             </div>
           )}
         </div>
+
         <div id="recaptcha-container"></div>
+        
       </Container>
     </>
   );

@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import Button from "../../components/ui/Button";
 import Container from "../../components/ui/Container";
 import countries from "../../data/countries.json";
+import { WorldIDWidget } from "@worldcoin/id";
 
 const RegisterPage = () => {
   const [name, setName] = useState();
@@ -64,8 +65,27 @@ const RegisterPage = () => {
               onChange={(e) => {
                 setUid(e.target.value);
               }}
-              requi
             />
+            <div style={{ alignItems: "center" }}>
+              <p
+                style={{ textAlign: "center", marginBottom: 6 }}
+                className="text-gray-500"
+              >
+                OR USE WORLD COIN
+              </p>
+
+              <WorldIDWidget
+                actionId="wid_staging_266c21e35a9d5a2f0d55d9905c78cd68"
+                signal="my_signal"
+                // enableTelemetry
+                onSuccess={(verificationResponse) => {
+                  console.log(verificationResponse);
+                  setUid(verificationResponse);
+                }} 
+                onError={(error) => console.error(error)}
+                debug={true} 
+              />
+            </div>
             <div className="mx-3 mt-10 ">
               <Button type="primary" className="py-2">
                 Proceed
