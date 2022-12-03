@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import Container from "../../components/ui/Container";
 import ElectionCard from "../../components/ElectionCard";
 import VotingSheet from "../../components/VotingSheet";
+import MetamaskLogo from "../../assets/logo/MetamaskLogo";
 
 const ElectionsPage = () => {
   const [allElections, setAllElections] = useState([]);
@@ -30,7 +31,7 @@ const ElectionsPage = () => {
 
   const handleVoteClicked = () => {
     console.log("Vote clicked");
-    setIsVotingSheetVisible((k) => !k);
+    setIsVotingSheetVisible(!isVotingSheetVisible);
   };
 
   return (
@@ -42,7 +43,12 @@ const ElectionsPage = () => {
         <div className="flex flex-col items-start">
           <div className="flex flex-row justify-between w-full px-2 py-2 text-4xl">
             <h1 className="font-bold">Elections</h1>
-            <i className="uil uil-user-circle transform transition duration-5000 hover:scale-105 cursor-pointer" />
+            <button
+              type="button"
+              class="border-2 border-black px-2 py-2 bg-white rounded-xl w-1/4 text-green-500 text-sm"
+            >
+              Connected
+            </button>
           </div>
           <div className="flex flex-row w-full px-5 rounded-l-full rounded-r-full my-4 py-2 text-2xl bg-gray-100">
             <i
@@ -77,7 +83,9 @@ const ElectionsPage = () => {
                 </div>
               ))}
           </div>
-          <VotingSheet open={isVotingSheetVisible} />
+          {isVotingSheetVisible && (
+            <VotingSheet onClose={() => setIsVotingSheetVisible(false)} />
+          )}
         </div>
       </Container>
     </>
