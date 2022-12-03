@@ -14,17 +14,31 @@ export const fetchElections = async () => {
 };
 
 export const fetchElectionCandidates = async (electionId) => {
-  await getDocs(collection(db, "candidates")).then((querySnapshot) => {
-    const newData = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    let filteredCandidates = newData.filter((item) => {
-      if (filteredCandidates[0].candidates.includes(item.id)) return true;
-      else return false;
+  return new Promise((resolve, reject) => {
+    const docRef = doc(db, "elections", electionId);
+    getDoc(docRef).then(async (docSnap) => {
+      console.log("BHAI MILA", docSnap.data());
+      if (docSnap.exists()) {
+        let candidateIds = docSnap.data().candidates;
+        // get all candidates and filter here
+        await getDocs(collection(db, "candidates")).then((querySnapshot) => {
+          const newData = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          // all candidate == newData
+          let filteredCandidates = newData.filter((item) => {
+            if (candidateIds.includes(item.id)) return true;
+            else return false;
+          });
+          console.log("filteredCandidates", filteredCandidates);
+          console.log("shit finally", filteredCandidates);
+          resolve(filteredCandidates);
+        });
+      } else {
+        resolve({ error: "Election not found!" });
+      }
     });
-    console.log("filteredCandidates", filteredCandidates);
-    return filteredCandidates;
   });
 };
 

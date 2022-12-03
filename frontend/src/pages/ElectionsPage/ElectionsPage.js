@@ -29,8 +29,8 @@ const ElectionsPage = () => {
     console.log("Seach button clicked");
   };
 
-  const handleVoteClicked = () => {
-    console.log("Vote clicked");
+  const handleVoteClicked = (electionId) => {
+    setSelectedElection(electionId);
     setIsVotingSheetVisible(!isVotingSheetVisible);
   };
 
@@ -41,14 +41,17 @@ const ElectionsPage = () => {
       </Helmet>
       <Container className="md:px-10 md:py-20 px-5 py-8">
         {isVotingSheetVisible ? (
-          <VotingSheet onClose={() => setIsVotingSheetVisible(false)} />
+          <VotingSheet
+            electionId={selectedElection}
+            onClose={() => setIsVotingSheetVisible(false)}
+          />
         ) : (
           <div className="flex flex-col items-start">
             <div className="flex flex-row justify-between w-full px-2 py-2 text-4xl">
               <h1 className="font-bold">Elections</h1>
               <button
                 type="button"
-                className="px-2 py-2 bg-gray-100 rounded-xl w-1/6 text-green-500 text-sm font-bold border-2 border-gray-300"
+                className="px-2 py-2 bg-gray-100 rounded-xl md:w-1/6 w-1/3 text-green-500 text-sm font-bold border-2 border-gray-300"
               >
                 Connected
               </button>
@@ -81,7 +84,9 @@ const ElectionsPage = () => {
                     <ElectionCard
                       name={election.name}
                       noOfVotes={election.noOfVotes}
-                      handleVoteClicked={handleVoteClicked}
+                      handleVoteClicked={() => {
+                        handleVoteClicked(election.id);
+                      }}
                     />
                   </div>
                 ))}

@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { fetchElectionCandidates } from "../../utils/firebaseFunctions";
 import Button from "../ui/Button";
 
-const VotingSheet = ({ onClose }) => {
+const VotingSheet = ({ electionId, onClose }) => {
+  const [candidates, setCandidates] = useState([]);
+
+  useEffect(() => {
+    fetchElectionCandidates(electionId).then((resp) => {
+      console.log("gettin cand here", resp);
+      electionId && setCandidates(resp);
+    });
+  }, [electionId]);
+
   return (
-    <div className="flex flex-col w-full px-32 items-center">
-      <div className="w-1/2 flex flex-row my-3 items-center justify-center relative">
+    <div className="flex flex-col w-full md:px-32 px-2 items-center">
+      <div className="md:w-1/2 w-full flex flex-row my-5 items-center justify-center relative">
         <i
           className="uil uil-arrow-left text-4xl absolute left-0 transform transition duration-5000 hover:scale-105 cursor-pointer"
           onClick={onClose}
         />
         <p className="text-xl font-bold">Karnataka Elections 2022</p>
       </div>
-      <div className="w-1/2 relative">
+      <div className="md:w-1/2 w-full relative">
         <img
           src="https://cdn.tailgrids.com/1.0/assets/images/cards/card-01/image-03.jpg"
           alt=""
