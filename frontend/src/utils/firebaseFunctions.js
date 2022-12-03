@@ -1,7 +1,7 @@
 import { db } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import { updateDoc, arrayUnion } from "firebase/firestore";
 
 export const fetchElections = async () => {
   await getDocs(collection(db, "elections")).then((querySnapshot) => {
