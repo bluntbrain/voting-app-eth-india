@@ -1,9 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { ethers } from "ethers";
+import {
+  checkIfVoterIsRegistered,
+  registerVoter,
+  registerVoterForAElection,
+} from "../../utils/firebaseFunctions";
 
 const LandingPage = () => {
   const [walletAddress, setWalletAddress] = useState();
+
+  // useEffect(() => {
+  //   // console.log("checkIfVoterIsRegistered start");
+  //   // registerVoterForAElection("8200608175", "1234").then((res) => {
+  //   //   console.log("registerVoterForAElection FINAL", res);
+  //   // });
+
+  //   // checkIfVoterIsRegistered("8200608175").then((res) => {
+  //   //     console.log("checkIfVoterIsRegistered", res);
+  //   //   });
+
+  //   // registerVoter("8200608179", "ishan", "In", "999999").then((res) => {
+  //   //   console.log("registered", res);
+  //   // });
+  // }, []);
 
   const handleConnectWallet = async () => {
     try {
