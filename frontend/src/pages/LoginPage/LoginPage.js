@@ -8,7 +8,8 @@ import Container from "../../components/ui/Container";
 const LoginPage = () => {
   const [number, setNumber] = useState();
   const [otp, setOtp] = useState();
-  const [isOptSent, setIsOptSent] = useState(true);
+  const [isOptSent, setIsOptSent] = useState(false);
+
   return (
     <>
       <Helmet>
@@ -67,8 +68,12 @@ const LoginPage = () => {
               </p>
               <p className="text-gray-500 mt-5 mx-3">Phone Number</p>
               <input
-                type="text"
-                className="border-gray-300 border-2 mx-2 my-3 rounded-lg px-2 py-2"
+                type="number"
+                className={` ${
+                  number && number.length !== 10
+                    ? "border-red-600"
+                    : "border-gray-400"
+                } border-2 mx-2 my-3 rounded-lg px-2 py-2`}
                 value={number}
                 onChange={(e) => {
                   setNumber(e.target.value);
@@ -82,7 +87,13 @@ const LoginPage = () => {
                 </Link>
               </p>
               <div className="mx-3 mt-10 ">
-                <Button type="primary" className="py-2">
+                <Button
+                  type="primary"
+                  className="py-2"
+                  onClick={() => {
+                    setIsOptSent(true);
+                  }}
+                >
                   Proceed
                 </Button>
               </div>
