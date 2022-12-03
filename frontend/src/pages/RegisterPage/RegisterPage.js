@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Button from "../../components/ui/Button";
 import Container from "../../components/ui/Container";
 import countries from "../../data/countries.json";
+import { registerVoter } from "../../utils/firebaseFunctions";
 
 const RegisterPage = () => {
   const [name, setName] = useState();
   const [country, setCountry] = useState();
   const [uid, setUid] = useState();
 
-  const checkEmptyFeilds = () => {
-    if (name === undefined) return true;
-    else return false;
-  };
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(name, uid, country);
-  }, [name, uid, country]);
+  const handleRegisterUser = async () => {
+    const phone = localStorage.getItem("phone");
+    console.log({ phone });
+    if (
+      name !== undefined &&
+      country !== undefined &&
+      uid !== undefined &&
+      phone !== null
+    ) {
+      await registerVoter(phone, name, country, uid);
+      navigate("/connect-wallet");
+    } else {
+      console.log("Error in registering user");
+    }
+  };
 
   return (
     <>
@@ -39,7 +50,6 @@ const RegisterPage = () => {
               onChange={(e) => {
                 setName(e.target.value);
               }}
-              required
             />
             <p className="text-gray-500 mt-5 mx-3">Country</p>
             <select
@@ -48,7 +58,6 @@ const RegisterPage = () => {
               onChange={(e) => {
                 setCountry(e.target.value);
               }}
-              required
             >
               {countries.map((country) => (
                 <option value={country.code}>{country.name}</option>
@@ -64,10 +73,13 @@ const RegisterPage = () => {
               onChange={(e) => {
                 setUid(e.target.value);
               }}
-              requi
             />
             <div className="mx-3 mt-10 ">
-              <Button type="primary" className="py-2">
+              <Button
+                type="primary"
+                className="py-2"
+                onClick={handleRegisterUser}
+              >
                 Proceed
               </Button>
             </div>
