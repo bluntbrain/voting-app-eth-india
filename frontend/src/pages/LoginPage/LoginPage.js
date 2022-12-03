@@ -4,17 +4,93 @@ import OtpInput from "react-otp-input";
 import { Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import Container from "../../components/ui/Container";
+import { app, authentication } from "../../firebase";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+import { checkIfVoterIsRegistered } from "../../utils/firebaseFunctions";
 
 const LoginPage = () => {
   const [number, setNumber] = useState();
   const [otp, setOtp] = useState();
   const [isOptSent, setIsOptSent] = useState(false);
 
+  const onCaptchaVerify = () => {
+    console.log("onCaptchaVerify");
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // ...
+          console.log("onCaptchaVerify onSignInSubmit", response);
+
+          console.log("onCaptchaVerify onSignInSubmit", response);
+        },
+      },
+      authentication
+    );
+    onSignInSubmit();
+  };
+
+  const onSignInSubmit = () => {
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    console.log("phoneNumber ", phoneNumber);
+
+    signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        console.log("otp sent", confirmationResult);
+
+        setIsOptSent(true);
+        // ...
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        console.log("error ", error);
+        // ...
+      });
+  };
+
+  const verfiyOtp = () => {
+    const code = otp;
+
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        console.log("signin success", number,user);
+        checkIfVoterIsRegistered(number).then(resp => {
+          
+          if(resp.userExists){
+            // take to home page or connect wallet
+
+          }else{
+            // take to registration page
+          }
+        })
+        // ...
+      })
+      .catch((error) => {
+        console.log("signin error", error);
+        // User couldn't sign in (bad verification code?)
+        // ...
+      });
+  };
+
   return (
     <>
       <Helmet>
         <title>Login</title>
       </Helmet>
+
       <Container className="md:px-72 md:py-20 px-5 py-8">
         <div className="flex flex-col items-start">
           {isOptSent ? (
@@ -27,7 +103,10 @@ const LoginPage = () => {
               <div className="w-full flex flex-col items-center">
                 <OtpInput
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => {
+                    console.log("otp", e);
+                    setOtp(e);
+                  }}
                   numInputs={6}
                   separator={<span style={{ width: "32px" }}></span>}
                   isInputNum={true}
@@ -54,7 +133,7 @@ const LoginPage = () => {
                 <span className="text-blue-600">Resend</span>
               </p>
               <div className="mx-3 mt-10 ">
-                <Button type="primary" className="py-2">
+                <Button type="primary" className="py-2" onClick={verfiyOtp}>
                   Proceed
                 </Button>
               </div>
@@ -91,7 +170,7 @@ const LoginPage = () => {
                   type="primary"
                   className="py-2"
                   onClick={() => {
-                    setIsOptSent(true);
+                    onCaptchaVerify();
                   }}
                 >
                   Proceed
@@ -100,6 +179,7 @@ const LoginPage = () => {
             </div>
           )}
         </div>
+        <div id="recaptcha-container"></div>
       </Container>
     </>
   );
