@@ -10,8 +10,6 @@ import {
 import MetamaskLogo from "../../assets/logo/MetamaskLogo.js";
 
 const LandingPage = () => {
-  const [walletAddress, setWalletAddress] = useState();
-
   const navigate = useNavigate();
 
   const handleConnectWallet = async () => {
@@ -19,24 +17,20 @@ const LandingPage = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setWalletAddress(accounts);
+      await localStorage.setItem("wallet-address", accounts[0]);
+      navigate("/elections");
     } catch {
       console.log("Error connecting");
     }
   };
 
-  useEffect(() => {
-    walletAddress && localStorage.setItem("wallet-address", walletAddress[0]);
-  }, [walletAddress]);
-
-  const handleInteract = async () => {
+  const handleInteract = () => {
     if (typeof window.ethereum !== "undefined") {
-      await handleConnectWallet();
+      handleConnectWallet();
 
-      navigate("/elections");
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      // const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-      console.log({ provider });
+      // console.log({ provider });
     }
   };
 

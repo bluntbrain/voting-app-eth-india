@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import OtpInput from "react-otp-input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import Container from "../../components/ui/Container";
 import { app, authentication } from "../../firebase";
@@ -16,6 +16,19 @@ const LoginPage = () => {
   const [number, setNumber] = useState();
   const [otp, setOtp] = useState();
   const [isOptSent, setIsOptSent] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const phone = localStorage.getItem("phone");
+    const walletAddress = localStorage.getItem("wallet-address");
+    if (phone !== null) {
+      navigate("/connect-wallet");
+    }
+    if (phone !== null && walletAddress !== null) {
+      navigate("/elections");
+    }
+  }, []);
 
   const onCaptchaVerify = () => {
     console.log("onCaptchaVerify");
@@ -66,16 +79,19 @@ const LoginPage = () => {
       .then((result) => {
         // User signed in successfully.
         const user = result.user;
-        console.log("signin success", number,user);
-        checkIfVoterIsRegistered(number).then(resp => {
-          
-          if(resp.userExists){
-            // take to home page or connect wallet
+        console.log("signin success", number, user);
+        checkIfVoterIsRegistered(number).then((resp) => {
+          if (resp.userExists) {
+            localStorage.setItem("phone", number);
+            localStorage.setItem("wallet-address", null);
 
-          }else{
-            // take to registration page
+            navigate("/connect-wallet");
+          } else {
+            localStorage.setItem("phone", number);
+            localStorage.setItem("wallet-address", null);
+            navigate("/register");
           }
-        })
+        });
         // ...
       })
       .catch((error) => {

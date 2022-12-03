@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 
 const ElectionCard = ({ name, noOfVotes, handleVoteClicked }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("wallet-address") === null ||
+      localStorage.getItem("wallet-address") === undefined
+    ) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <section className="bg-white w-full shadow-lg">
       <div className="flex flex-col items-center">
