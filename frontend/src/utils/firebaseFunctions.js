@@ -17,7 +17,6 @@ export const fetchElectionCandidates = async (electionId) => {
   return new Promise((resolve, reject) => {
     const docRef = doc(db, "elections", electionId);
     getDoc(docRef).then(async (docSnap) => {
-      console.log("BHAI MILA", docSnap.data());
       if (docSnap.exists()) {
         let candidateIds = docSnap.data().candidates;
         // get all candidates and filter here
@@ -31,8 +30,6 @@ export const fetchElectionCandidates = async (electionId) => {
             if (candidateIds.includes(item.id)) return true;
             else return false;
           });
-          console.log("filteredCandidates", filteredCandidates);
-          console.log("shit finally", filteredCandidates);
           resolve(filteredCandidates);
         });
       } else {

@@ -25,9 +25,9 @@ const ElectionsPage = () => {
     });
   };
 
-  const handleSearch = () => {
-    console.log("Seach button clicked");
-  };
+  // const handleSearch = () => {
+  //   console.log("Seach button clicked");
+  // };
 
   const handleVoteClicked = (electionId) => {
     setSelectedElection(electionId);
@@ -42,6 +42,13 @@ const ElectionsPage = () => {
       <Container className="md:px-10 md:py-20 px-5 py-8">
         {isVotingSheetVisible ? (
           <VotingSheet
+            name={allElections.find((k) => k.id === selectedElection).name}
+            noOfVotes={
+              allElections.find((k) => k.id === selectedElection).noOfVotes
+            }
+            endDate={
+              allElections.find((k) => k.id === selectedElection).endDate
+            }
             electionId={selectedElection}
             onClose={() => setIsVotingSheetVisible(false)}
           />
@@ -56,8 +63,8 @@ const ElectionsPage = () => {
                 Connected
               </button>
             </div>
-            <div className="flex flex-row w-full px-2 rounded-l-full rounded-r-full my-4 py-2 text-2xl bg-gray-100 border-1 border-gray-300">
-              {/* <i
+            {/* <div className="flex flex-row w-full px-2 rounded-l-full rounded-r-full my-4 py-2 text-2xl bg-gray-100 border-1 border-gray-300">
+              <i
                 className="uil uil-search transform transition duration-5000 hover:scale-105 cursor-pointer text-gray-500"
                 onClick={handleSearch}
               />
@@ -65,8 +72,8 @@ const ElectionsPage = () => {
                 type="text"
                 className="outline-0 px-4 w-full bg-gray-100 placeholder-gray-500"
                 placeholder="Search"
-              /> */}
-            </div>
+              />
+            </div> */}
             <div className="px-4 py-2 w-full">
               <div className="text-md inline-flex items-center cursor-pointer font-bold leading-sm px-3 py-1 text-black bg-gray-100 border-gray-300 border-2 rounded-full mx-1 transform transition duration-5000 hover:scale-105">
                 <i className="uil uil-clock-nine" />
@@ -87,6 +94,7 @@ const ElectionsPage = () => {
                       handleVoteClicked={() => {
                         handleVoteClicked(election.id);
                       }}
+                      endDate={election.endDate}
                       banner={election.bannerImage}
                     />
                   </div>
