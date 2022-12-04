@@ -1,8 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 
-const ElectionCard = ({ name, noOfVotes, handleVoteClicked,banner }) => {
+const ElectionCard = ({
+  name,
+  noOfVotes,
+  handleVoteClicked,
+  banner,
+  endDate,
+}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +37,10 @@ const ElectionCard = ({ name, noOfVotes, handleVoteClicked,banner }) => {
               <p className="truncate ... font-bold text-lg my-2">{name}</p>
               <p className="truncate ... text-sm">
                 <i className="uil uil-stopwatch" />
-                <span className="mx-1">Voting closes in 8 hours</span>
+                <span className="mx-1">
+                  Voting closes in{" "}
+                  {moment(endDate.toDate()).diff(moment(), "hours")} hours
+                </span>
               </p>
               <p className="truncate ... text-sm">
                 <i className="uil uil-ticket" />
