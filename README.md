@@ -14,7 +14,7 @@ Youtube Demo: https://www.youtube.com/watch?v=tzRhc_sMYbU
 
 EthIndia Submission Link: https://devfolio.co/projects/ballet-on-chain-9d77
 
-Valist Deployment Link: https://bafybeickr6kuxskgmdxmhlrqpyqvyvcg2xutovatrnhfjgrorsgh477nji.ipfs.w3s.link/
+Valist Deployment Link: https://bafybeiazmpqglwpo4447c2yqv2xqujsiihqkj6bwiurfotfo7636pqbnm4.ipfs.w3s.link/login
 
 ```shell
 Tech Stack
