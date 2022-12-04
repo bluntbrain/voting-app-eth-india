@@ -46,6 +46,9 @@ const ElectionsPage = () => {
             noOfVotes={
               allElections.find((k) => k.id === selectedElection).noOfVotes
             }
+            bannerImage={
+              allElections.find((k) => k.id === selectedElection).bannerImage
+            }
             endDate={
               allElections.find((k) => k.id === selectedElection).endDate
             }
