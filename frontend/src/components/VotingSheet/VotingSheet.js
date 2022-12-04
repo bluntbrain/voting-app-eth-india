@@ -4,7 +4,14 @@ import moment from "moment";
 import Button from "../ui/Button";
 import { castVote } from "../../utils/contractFunctions";
 
-const VotingSheet = ({ electionId, name, noOfVotes, endDate, onClose }) => {
+const VotingSheet = ({
+  electionId,
+  name,
+  noOfVotes,
+  bannerImage,
+  endDate,
+  onClose,
+}) => {
   const [candidates, setCandidates] = useState([]);
   const [selectedCandidate, setSelectedCandidate] = useState(-1);
   const [isVoteCasted, setIsVoteCasted] = useState(false);
@@ -31,7 +38,7 @@ const VotingSheet = ({ electionId, name, noOfVotes, endDate, onClose }) => {
       </div>
       <div className="md:w-1/2 w-full relative">
         <img
-          src="https://cdn.tailgrids.com/1.0/assets/images/cards/card-01/image-03.jpg"
+          src={bannerImage}
           alt=""
           className="rounded-xl w-full md:h-60 h-40 object-cover"
         />
